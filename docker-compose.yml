@@ -8,7 +8,7 @@ services:
     environment:
       APP_ENV: production
       APP_DEBUG: "false"
-      APP_URL: https://play.deinedomain.tld
+      APP_URL: https://worldskandii.net   # <— hier richtig setzen
       LOG_CHANNEL: stderr
       DB_CONNECTION: mysql
       DB_HOST: db
@@ -23,7 +23,7 @@ services:
       db:
         condition: service_healthy
     expose:
-      - "8081"
+      - "8081"   # <— WICHTIG: 8081 statt 8080
 
   db:
     image: mariadb:10.11
