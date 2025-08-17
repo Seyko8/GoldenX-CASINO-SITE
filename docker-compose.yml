@@ -23,7 +23,7 @@ services:
       db:
         condition: service_healthy
     expose:
-      - "8080"
+      - "8081"
 
   db:
     image: mariadb:10.11
