@@ -1,0 +1,45 @@
+version: "3.8"
+services:
+  app:
+    build: .
+    container_name: goldenx-app
+    env_file:
+      - .env
+    environment:
+      APP_ENV: production
+      APP_DEBUG: "false"
+      APP_URL: https://play.deinedomain.tld
+      LOG_CHANNEL: stderr
+      DB_CONNECTION: mysql
+      DB_HOST: db
+      DB_PORT: 3306
+      DB_DATABASE: goldenx
+      DB_USERNAME: goldenx
+      DB_PASSWORD: supersecret
+      QUEUE_CONNECTION: database
+      SESSION_DRIVER: file
+      CACHE_DRIVER: file
+    depends_on:
+      db:
+        condition: service_healthy
+    expose:
+      - "8080"
+
+  db:
+    image: mariadb:10.11
+    container_name: goldenx-db
+    environment:
+      MYSQL_DATABASE: goldenx
+      MYSQL_USER: goldenx
+      MYSQL_PASSWORD: supersecret
+      MYSQL_ROOT_PASSWORD: rootsecret
+    volumes:
+      - dbdata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 10s
+      timeout: 3s
+      retries: 30
+
+volumes:
+  dbdata:
